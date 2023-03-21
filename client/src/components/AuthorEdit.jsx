@@ -59,8 +59,8 @@ const AuthorEdit = (props) => {
                     <label htmlFor="name">Author Name: </label>
                     <input type="text" className="form-control" name="name" id="name" value={oneAuthor.name} onChange={handleChange} />
                 </div>
-            </form>
                 <button className='btn btn-info mt-3'>Edit Author</button>
+            </form>
                 </div>
     )
 }
