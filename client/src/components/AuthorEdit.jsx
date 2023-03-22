@@ -4,7 +4,7 @@ import { useNavigate, useParams, Link} from 'react-router-dom'
 import axios from 'axios'
 
 
-const AuthorEdit = (props) => {
+const AuthorEdit = () => {
     const navigate = useNavigate()
     const [errors, setErrors] = useState({})
     const [oneAuthor, setOneAuthor] = useState({})
@@ -16,7 +16,10 @@ const AuthorEdit = (props) => {
                 // console.log(res.data.author)
                 setOneAuthor(res.data.author)
             })
-            .catch(err=>console.log(err))
+            .catch(err=>{
+                console.log(err)
+                navigate('/error')
+            })
     }, []);
 
 
@@ -54,7 +57,7 @@ const AuthorEdit = (props) => {
             <h5>Edit this author:</h5>
             <Link to="/">Go home</Link>
             <form action="" className='col-md-6 offset-3' onSubmit={editAuthor}>
-                {oneAuthor && oneAuthor.name < 3 ? <p className="text-danger">{errors.name}</p> : ""}
+                {oneAuthor.name?.length < 3 ? <p className="text-danger">{errors.name}</p> : ""}
                 <div className="formgroup">
                     <label htmlFor="name">Author Name: </label>
                     <input type="text" className="form-control" name="name" id="name" value={oneAuthor.name} onChange={handleChange} />

@@ -6,35 +6,41 @@ import {useNavigate, Link} from 'react-router-dom'
 
 const AuthorAdd = (props) => {
     const navigate = useNavigate();
-    const {author, setAuthor} = props
-    const [errors, setErrors] = useState({})
+    // const {author, setAuthor} = props
+    const [errors, setErrors] = useState([])
+    const [author, setAuthor] = useState({
+        name: ""
+    })
+    
 
-    const handleValidation = () => {
-        let isValid = true
-        if(author.name.length<3) {
-            return false
-        }
-        return isValid
-    }
     const addAuthor = (e) => {
         e.preventDefault()
-        if(handleValidation()){
             axios.post(`http://localhost:8000/api/authors`, author)
-            .then(res=>console.log(res))
-            .catch(err=>console.log(err))
-            navigate("/")
-        }
-        else {
-            setErrors({
-                name: "Author Name must be at least 3 characters"
+            .then(res=>{
+                console.log(res)
+                setAuthor({
+                    name: ""
+                })
+                navigate("/")
+
             })
-        }
+            .catch(err=>{
+                console.log(err.response.data)
+                setErrors(err.response.data.error.errors);
+            })
     }
     const handleChange = (e) => {
-        setAuthor({
-            ...author,
-            [e.target.name]: e.target.value
-        })
+            setAuthor({
+                ...author,
+                [e.target.name]: e.target.value
+            })
+        // else {
+            // setErrors({
+            //     ...errors,
+            //     name: "Author Name must be at least 3 characters"
+            // })
+            // console.log(errors.name)
+        // } 
     }
     
     return (
@@ -42,13 +48,14 @@ const AuthorAdd = (props) => {
             <h5>Add a new author:</h5>
             <Link to="/">Go home</Link>
             <form action="" className='col-md-6 offset-3' onSubmit={addAuthor}>
-                {author.name.length < 3 ? <p className="text-danger">{errors.name}</p> : ""}
+                {author.name && author.name.length < 3 ? <p className="text-danger">FE: Name is not long enough</p> : ""}
+                { errors.name ? <p className="text-danger">{errors.name.message}</p>: null}
                 <div className="formgroup">
                     <label htmlFor="name">Author Name: </label>
                     <input type="text" className="form-control" name="name" id="name" onChange={handleChange} />
                 </div>
-            </form>
                 <button className='btn btn-info mt-3'>Add Author</button>
+            </form>
         </div>
     )
 }

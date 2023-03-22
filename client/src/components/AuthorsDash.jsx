@@ -11,7 +11,7 @@ const AuthorsDash = (props) => {
     useEffect(() => {
         axios.get(`http://localhost:8000/api/authors`)
         .then(res=>{
-            console.log(res.data)
+            // console.log(res.data)
             setAuthors(res.data.author)
         })
         .catch(err=>console.log(err))

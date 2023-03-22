@@ -9,18 +9,14 @@ function App() {
 
   const [authors, setAuthors] = useState([])
 
-  const [author, setAuthor] = useState({
-    name: ""
-})
-
 
   return (
     <div className="App">
       <h1>Favorite Authors:</h1>
       <Routes>
         <Route element= {<AuthorsDash authors={authors} setAuthors={setAuthors}/>} path="/"/>
-        <Route element= {<AuthorAdd author={author} setAuthor={setAuthor}/>} path="/create"/>
-        <Route element= {<AuthorEdit author={author}/>} path="/edit/:id"/>
+        <Route element= {<AuthorAdd />} path="/create"/>
+        <Route element= {<AuthorEdit/>} path="/edit/:id"/>
       </Routes>
     </div>
   );
