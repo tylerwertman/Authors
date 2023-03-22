@@ -23,26 +23,29 @@ const AuthorEdit = () => {
     }, []);
 
 
-    const handleValidation = () => {
-        let isValid = true
-        if(oneAuthor.name.length<3) {
-            return false
-        }
-        return isValid
-    }
+    // const handleValidation = () => {
+    //     let isValid = true
+    //     if(oneAuthor.name.length<3) {
+    //         return false
+    //     }
+    //     return isValid
+    // }
 
     const editAuthor = (e) => {
         e.preventDefault();
-        if(handleValidation()){
+        // if(handleValidation()){
         axios.put(`http://localhost:8000/api/authors/${id}`, oneAuthor)
             .then(res=>navigate("/"))
-            .catch(err=>console.log(err))
-        }
-        else {
-            setErrors({
-                name: "Author Name must be at least 3 characters"
+            .catch(err=>{
+                console.log(err.response.data)
+                setErrors(err.response.data.error.errors);
             })
-        }
+        // }
+        // else {
+        //     setErrors({
+        //         name: "Author Name must be at least 3 characters"
+        //     })
+        // }
     }
 
     const handleChange = (e) => {
@@ -57,7 +60,8 @@ const AuthorEdit = () => {
             <h5>Edit this author:</h5>
             <Link to="/">Go home</Link>
             <form action="" className='col-md-6 offset-3' onSubmit={editAuthor}>
-                {oneAuthor.name?.length < 3 ? <p className="text-danger">{errors.name}</p> : ""}
+                {oneAuthor.name && oneAuthor.name.length < 3 ? <p className="text-danger">FE: Name is not long enough</p> : ""}
+                { errors.name ? <p className="text-danger">{errors.name.message}</p>: null}
                 <div className="formgroup">
                     <label htmlFor="name">Author Name: </label>
                     <input type="text" className="form-control" name="name" id="name" value={oneAuthor.name} onChange={handleChange} />

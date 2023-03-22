@@ -34,13 +34,6 @@ const AuthorAdd = (props) => {
                 ...author,
                 [e.target.name]: e.target.value
             })
-        // else {
-            // setErrors({
-            //     ...errors,
-            //     name: "Author Name must be at least 3 characters"
-            // })
-            // console.log(errors.name)
-        // } 
     }
     
     return (
